@@ -37,7 +37,7 @@ if uploaded_file:
     uml_path.parent.mkdir(parents=True, exist_ok=True)
 
     # tiff_to_uml.generate_uml(dest=str(uml_path))
-    cmd = ["python", "tiff_to_uml.py", "--dest", str(uml_path), str(path)]
+    cmd = ["./tiff_to_uml.py", "--dest", str(uml_path), str(path)]
     _ = subprocess.check_output(cmd).decode()
 
     st.image(str(uml_path), use_column_width=True, width=None)
