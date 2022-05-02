@@ -1,7 +1,6 @@
 --find-links https://girder.github.io/large_image_wheels
 tifftools
-large_image>=1.14.2
-large_image_source_tiff>=1.14.2
+large_image[tiff,gdal]>=1.14.2
 numpy
 Pillow
 pyyaml
