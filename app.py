@@ -9,7 +9,15 @@ import tiff_to_uml
 
 st.set_page_config(page_title="Tiff to UML")
 
-"# Tiff to UML"
+"""
+# Tiff to UML
+
+[![Kitware](https://img.shields.io/badge/Made%20by-Kitware-blue)](https://www.kitware.com/)
+
+Depict the internal structure of a Tiff image as an UML diagram by grpahing
+the internal Image File Directories (IFDs).
+"""
+
 
 
 def upload_file_to_path(uploaded_file):
