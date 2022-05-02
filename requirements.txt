@@ -1,0 +1,8 @@
+tifftools
+large_image[tiff]>=1.14.2
+numpy
+Pillow
+yaml
+click<=8.0.4  # streamlit compatibility
+streamlit
+appdirs
