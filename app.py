@@ -3,12 +3,17 @@ import subprocess
 from pathlib import Path
 
 import large_image
+import large_image_source_tiff
 import streamlit as st
 from appdirs import user_data_dir
 
 st.set_page_config(page_title="Tiff to UML")
 
 "# Tiff to UML"
+
+large_image.tilesource.loadTileSources()
+sources = large_image.tilesource.AvailableTileSources
+st.json({k: str(v) for k, v in sources.items()})
 
 
 def upload_file_to_path(uploaded_file):
@@ -23,7 +28,7 @@ uploaded_file = st.file_uploader("Upload a Tiff")
 
 if uploaded_file:
     path = upload_file_to_path(uploaded_file)
-    source = large_image.open(path, encoding="PNG")
+    source = large_image_source_tiff.open(path, encoding="PNG")
 
     with st.sidebar:
         thumb_data, _ = source.getThumbnail(encoding="PNG", width=256, height=256)
