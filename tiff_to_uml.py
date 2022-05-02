@@ -12,8 +12,6 @@ import large_image
 import large_image_source_tiff
 import numpy
 import PIL.Image
-import PIL.ImageColor
-import PIL.ImageDraw
 import tifftools
 import yaml
 
@@ -244,7 +242,7 @@ def generate_uml(args):
         sys.stdout.write(result)
 
 
-if __name__ == '__main__':
+def get_parser():
     parser = argparse.ArgumentParser(description="""
 Read tiff files and emit svg UML diagrams of their internal details.
 
@@ -265,6 +263,9 @@ sent to plantuml.    The default arguments for tifftools dump are "--max 6
         '--thumb', '--thumbnails', '--images', action='store_true',
         help='Add image thumbnails to the output.')
     parser.add_argument(
+        '--thumb-flag', dest='thumb', type=bool,
+        help='Add image thumbnails to the output.')
+    parser.add_argument(
         '--minthumb', type=int, default=64,
         help='The minimum thumbnail size for the lowest resolution image layer.')
     parser.add_argument(
@@ -274,11 +275,20 @@ sent to plantuml.    The default arguments for tifftools dump are "--max 6
         '--structure', action='store_true',
         help='Draw the tile or strip structure on top of the thumbnail.')
     parser.add_argument(
+        '--structure-flag', dest='structure', type=bool,
+        help='Draw the tile or strip structure on top of the thumbnail.')
+    parser.add_argument(
         '--order', action='store_true',
+        help='Draw the tile or strip order on top of the thumbnail.')
+    parser.add_argument(
+        '--order-flag', dest='order', type=bool,
         help='Draw the tile or strip order on top of the thumbnail.')
     parser.add_argument(
         '--verbose', '-v', action='count', default=0, help='Increase verbosity')
 
+
+if __name__ == '__main__':
+    parser = get_parser()
     args, unknown = parser.parse_known_args()
     args.tifftools_args = unknown[:unknown.index('--') if '--' in unknown else len(unknown)] or \
         ['--max', '6', '--max-text', '40']
