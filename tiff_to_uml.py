@@ -8,7 +8,6 @@ import subprocess
 import sys
 import tempfile
 
-import click
 import large_image
 import large_image_source_tiff
 import numpy
@@ -243,9 +242,6 @@ def generate_uml(args):
         open(args.dest, 'wb').write(result)
     else:
         sys.stdout.write(result)
-
-
-
 
 
 if __name__ == '__main__':
