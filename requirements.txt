@@ -1,3 +1,4 @@
+--find-links https://girder.github.io/large_image_wheels
 tifftools
 large_image[tiff]>=1.14.2
 numpy
