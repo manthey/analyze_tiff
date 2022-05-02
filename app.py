@@ -10,6 +10,8 @@ st.set_page_config(page_title="Tiff to UML")
 
 "# Tiff to UML"
 
+st.write(os.environ)
+
 
 def upload_file_to_path(uploaded_file):
     path = Path(user_data_dir("tifftools"), uploaded_file.name)
