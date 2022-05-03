@@ -1,5 +1,0 @@
-# This is only for streamlit
-channels:
-  - conda-forge
-dependencies:
-  - plantuml
