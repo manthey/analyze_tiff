@@ -46,4 +46,7 @@ if uploaded_file:
     arguments = ["--dest", str(uml_path), str(path)]
     tiff_to_uml.generate_uml(tiff_to_uml.parse_args(arguments))
 
+    with open(uml_path, 'rb') as f:
+        st.download_button('Download Graph', f.read(), file_name='uml.svg', mime='image/svg+xml')
+
     st.image(str(uml_path), use_column_width=True, width=None)
