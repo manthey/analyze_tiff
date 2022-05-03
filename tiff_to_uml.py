@@ -212,15 +212,19 @@ def add_thumbnails(rawyaml, args):
     return rawyaml
 
 
-def generate_uml(args):
+def generate_yaml(args):
     cmd = ['tifftools', 'dump', '--yaml'] + args.tifftools_args + [args.source]
     if args.verbose:
         sys.stdout.write('tifftools command: %r\n' % cmd)
     rawyaml = subprocess.check_output(cmd).decode()
     if args.thumb or args.structure or args.order:
         rawyaml = add_thumbnails(rawyaml, args)
-
     yamldata = yaml.safe_load(rawyaml)
+    return yamldata
+
+
+def generate_uml(args):
+    yamldata = generate_yaml(args)
     if len(yamldata) == 1:
         yamldata = yamldata[list(yamldata.keys())[0]]
     jsonuml = '@startjson\n%s\n@endjson\n' % (json.dumps(
