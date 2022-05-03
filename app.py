@@ -39,12 +39,10 @@ uploaded_file = st.file_uploader("Upload a Tiff")
 args = parse_args(sys.argv[1:])
 arg_path = args.filename
 
-
 if arg_path:
     if not os.path.exists(arg_path):
         st.error(f"Path does not exist: {arg_path}")
-    arg_path = None
-
+        arg_path = None
 
 if uploaded_file or arg_path:
     with st.spinner("Generating graph..."):
