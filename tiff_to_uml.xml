@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>Utility</category>
+  <title>TIFF to UML</title>
+  <description>Analyze a TIFF and ouput am SVG UML diagram of its structure.</description>
+  <version>0.1.0</version>
+  <license>Apache 2.0</license>
+  <contributor>David Manthey (Kitware)</contributor>
+  <parameters>
+    <label>I/O</label>
+    <description>Input/output parameters.</description>
+    <image>
+      <name>inputImageFile</name>
+      <label>Input Image</label>
+      <channel>input</channel>
+      <index>0</index>
+      <description>Input image in which to count and classify positive pixels</description>
+    </image>
+    <file fileExtensions=".svg" reference="inputImageFile">
+      <name>outputSVGFile</name>
+      <label>SVG Output File</label>
+      <description>An SVG representation of the file structure (*.svg)</description>
+      <channel>output</channel>
+      <longflag>out</longflag>
+    </file>
+    <boolean>
+      <name>thumb</name>
+      <label>Output Thumbnail</label>
+      <longflag>thumb-flag</longflag>
+      <description>If true, outpute a thumbnail of each ifd.</description>
+      <channel>input</channel>
+      <default>true</default>
+    </boolean>
+    <boolean>
+      <name>structure</name>
+      <label>Output Structure</label>
+      <longflag>structure-flag</longflag>
+      <description>If true, ouput a thumbnail of each ifd showing the tile or strip structure of the image.</description>
+      <channel>input</channel>
+      <default>true</default>
+    </boolean>
+    <boolean>
+      <name>order</name>
+      <label>Output Order</label>
+      <longflag>order-flag</longflag>
+      <description>If true, output a thumbnail of each ifd showing the order of the tiles or strips in the image.  Missing tiles and strips are shown in yellow.  Otherwise, the order is earlier parts are black and later parts are white.</description>
+      <channel>input</channel>
+      <default>true</default>
+    </boolean>
+    <integer>
+       <name>minthumb</name>
+       <longflag>minthumb</longflag>
+       <label>Minimum Thumbnail Size</label>
+       <description>Thumbnails are adjusted in size based on the size of the input images.  The smallest will map to this size.</description>
+       <channel>input</channel>
+       <default>64</default>
+    </integer>
+    <integer>
+       <name>maxthumb</name>
+       <longflag>maxthumb</longflag>
+       <label>Maximum Thumbnail Size</label>
+       <description>Thumbnails are adjusted in size based on the size of the input images.  The largest will map to this size.</description>
+       <channel>input</channel>
+       <default>512</default>
+    </integer>
+  </parameters>
+</executable>

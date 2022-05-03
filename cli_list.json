@@ -1,0 +1,8 @@
+{
+  "tiff_to_uml": {
+    "script": "tiff_to_uml.py",
+    "xml": "tiff_to_uml.xml",
+    "type": "python"
+  }
+}
+
