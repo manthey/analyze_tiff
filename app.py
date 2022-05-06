@@ -82,6 +82,8 @@ if uploaded_file or local_path:
             st.json(source.getMetadata())
         with st.expander("Tifftools Dump"):
             st.json(yaml)
+        with st.expander("Internal Metadata"):
+            st.json(source.getInternalMetadata())
 
     with open(uml_path, "rb") as f:
         st.download_button(
