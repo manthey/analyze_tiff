@@ -35,21 +35,27 @@ def upload_file_to_path(uploaded_file):
     return str(path.absolute())
 
 
-uploaded_file = st.file_uploader("Upload a Tiff")
 args = parse_args(sys.argv[1:])
 arg_path = args.filename
-
 if arg_path:
     if not os.path.exists(arg_path):
         st.error(f"Path does not exist: {arg_path}")
-        arg_path = None
+        arg_path = ""
+else:
+    arg_path = ""
 
-if uploaded_file or arg_path:
+uploaded_file = st.file_uploader("Upload a Tiff")
+local_path = st.text_input(
+    "Or a local file path:",
+    value=arg_path,
+)
+
+if uploaded_file or local_path:
     with st.spinner("Generating graph..."):
         if uploaded_file:
             path = upload_file_to_path(uploaded_file)
         else:
-            path = arg_path
+            path = local_path
         source = large_image.open(path, encoding="PNG")
 
         uml_path = Path(
