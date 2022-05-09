@@ -1,0 +1,9 @@
+--find-links https://girder.github.io/large_image_wheels
+tifftools
+large_image[tiff,gdal]>=1.14.2
+numpy
+Pillow
+pyyaml
+click<=8.0.4  # streamlit compatibility
+streamlit
+appdirs

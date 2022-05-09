@@ -212,15 +212,19 @@ def add_thumbnails(rawyaml, args):
     return rawyaml
 
 
-def generate_uml(args):
+def generate_yaml(args):
     cmd = ['tifftools', 'dump', '--yaml'] + args.tifftools_args + [args.source]
     if args.verbose:
         sys.stdout.write('tifftools command: %r\n' % cmd)
     rawyaml = subprocess.check_output(cmd).decode()
     if args.thumb or args.structure or args.order:
         rawyaml = add_thumbnails(rawyaml, args)
-
     yamldata = yaml.safe_load(rawyaml)
+    return yamldata
+
+
+def generate_uml(args):
+    yamldata = generate_yaml(args)
     if len(yamldata) == 1:
         yamldata = yamldata[list(yamldata.keys())[0]]
     jsonuml = '@startjson\n%s\n@endjson\n' % (json.dumps(
@@ -244,8 +248,7 @@ def generate_uml(args):
         sys.stdout.write(result)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="""
+parser = argparse.ArgumentParser(description="""
 Read tiff files and emit svg UML diagrams of their internal details.
 
 Any unknown arguments are passed to either tifftools or plantuml.  If at least
@@ -254,36 +257,42 @@ arguments before "--" are sent to "tifftools dump --yaml".  Those after -- are
 sent to plantuml.    The default arguments for tifftools dump are "--max 6
 --max-text 40".  For plantuml, they are "-tsvg".
 """)
-    parser.add_argument(
-        'source', help='Path to source image')
-    parser.add_argument(
-        '--out', '--dest', dest='dest',
-        help='The destination file.  If not specified or "-", the results are sent to stdout.')
-    parser.add_argument(
-        '--uml', help='Output the intermediate uml file.')
-    parser.add_argument(
-        '--thumb', '--thumbnails', '--images', action='store_true',
-        help='Add image thumbnails to the output.')
-    parser.add_argument(
-        '--minthumb', type=int, default=64,
-        help='The minimum thumbnail size for the lowest resolution image layer.')
-    parser.add_argument(
-        '--maxthumb', type=int, default=512,
-        help='The maximum thumbnail size for the highest resolution image layer.')
-    parser.add_argument(
-        '--structure', action='store_true',
-        help='Draw the tile or strip structure on top of the thumbnail.')
-    parser.add_argument(
-        '--order', action='store_true',
-        help='Draw the tile or strip order on top of the thumbnail.')
-    parser.add_argument(
-        '--verbose', '-v', action='count', default=0, help='Increase verbosity')
+parser.add_argument(
+    'source', help='Path to source image')
+parser.add_argument(
+    '--out', '--dest', dest='dest',
+    help='The destination file.  If not specified or "-", the results are sent to stdout.')
+parser.add_argument(
+    '--uml', help='Output the intermediate uml file.')
+parser.add_argument(
+    '--thumb', '--thumbnails', '--images', action='store_true',
+    help='Add image thumbnails to the output.')
+parser.add_argument(
+    '--minthumb', type=int, default=64,
+    help='The minimum thumbnail size for the lowest resolution image layer.')
+parser.add_argument(
+    '--maxthumb', type=int, default=512,
+    help='The maximum thumbnail size for the highest resolution image layer.')
+parser.add_argument(
+    '--structure', action='store_true',
+    help='Draw the tile or strip structure on top of the thumbnail.')
+parser.add_argument(
+    '--order', action='store_true',
+    help='Draw the tile or strip order on top of the thumbnail.')
+parser.add_argument(
+    '--verbose', '-v', action='count', default=0, help='Increase verbosity')
 
-    args, unknown = parser.parse_known_args()
+
+def parse_args(arguments=None):
+    args, unknown = parser.parse_known_args(arguments)
     args.tifftools_args = unknown[:unknown.index('--') if '--' in unknown else len(unknown)] or \
         ['--max', '6', '--max-text', '40']
     args.plantuml_args = unknown[unknown.index('--') + 1 if '--' in unknown else len(unknown):] or \
         ['-tsvg']
     if args.verbose >= 2:
         sys.stderr.write('args: %r\n' % args)
+    return args
+
+if __name__ == '__main__':
+    args = parse_args()
     generate_uml(args)
